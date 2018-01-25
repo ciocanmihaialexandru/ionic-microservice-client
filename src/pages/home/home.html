@@ -8,11 +8,102 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
-
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
-
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  
+  <div *ngIf="!isTokenValid">
+    
+   
+    <div text-center padding>
+      <h1 color="light" >
+        <ion-icon name="heart"></ion-icon>
+      </h1>
+      <h2 color="light" >Welcome to Ionic Client Application</h2>
+    </div>
+  
+    <div padding>
+      <ion-segment [(ngModel)]="authType">
+        <ion-segment-button value="login" (click)="onChangeTabs()">
+          <b color="light">Login</b>
+        </ion-segment-button>
+        <ion-segment-button value="signup" (click)="onChangeTabs()">
+          <b color="light">Signup</b>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+  
+    <div [ngSwitch]="authType">
+    
+      <!-- Login form -->
+      <form *ngSwitchCase="'login'" #loginCreds="ngForm" (ngSubmit)="login(loginCreds.value)">
+      
+        <ion-item>
+          <ion-icon item-left name="ios-mail-outline"></ion-icon>
+          <ion-input type="text" name="username" placeholder="Email" ngModel></ion-input>
+        </ion-item>
+      
+        <ion-item>
+          <ion-icon item-left name="ios-lock-outline"></ion-icon>
+          <ion-input type="password" name="password" placeholder="Password" ngModel></ion-input>
+        </ion-item>
+      
+        <div padding>
+          <button block type="submit" ion-button secondary>Login</button>
+        </div>
+    
+      </form>
+    
+    
+      <form *ngSwitchCase="'signup'" #signupCreds="ngForm" (ngSubmit)="signup(signupCreds.value)">
+        <ion-item>
+          <ion-icon item-left name="ios-mail-outline"></ion-icon>
+          <ion-input type="text" name="username" placeholder="Email" ngModel></ion-input>
+        </ion-item>
+      
+        <ion-item>
+          <ion-icon item-left name="ios-lock-outline"></ion-icon>
+          <ion-input type="password" name="password" placeholder="Password" ngModel></ion-input>
+        </ion-item>
+      
+        <ion-item>
+          <ion-icon item-left name="ios-mail-outline"></ion-icon>
+          <ion-input type="text" name="notificationsEmail" placeholder="Email Notifications" ngModel></ion-input>
+        </ion-item>
+      
+        <ion-item>
+          <ion-icon item-left name="ios-man-outline"></ion-icon>
+          <ion-input type="text" name="name" placeholder="Name" ngModel></ion-input>
+        </ion-item>
+      
+        <div padding>
+          <button block type="submit" ion-button secondary>Signup</button>
+        </div>
+      </form>
+    
+      <!-- Other links -->
+      <!--<ion-grid>-->
+      <!--<ion-row>-->
+      <!--<ion-col width-50>-->
+      <!--<span color="light">Forgot password?</span>-->
+      <!--</ion-col>-->
+    
+      <!--<ion-col width-50>-->
+      <!--<a color="light" (click)="register()">New here? Sign up</a>-->
+      <!--</ion-col>-->
+      <!--</ion-row>-->
+      <!--</ion-grid>-->
+    </div>
+  
+    <div padding style="text-align: center">
+      <p *ngIf="error" class="error"><ion-badge color="danger" item-right>{{ error }}</ion-badge></p>
+      <p *ngIf="success" class="primary"><ion-badge color="primary" item-right>{{ success }}</ion-badge></p>
+    </div>
+    
+  </div>
+  
+  <div *ngIf="isTokenValid">
+    <div padding>
+      <h5>Welcome, {{ user }}</h5>
+      <button ion-button secondary block (click)="logout()">Logout</button>
+    </div>
+  </div>
+  
 </ion-content>
